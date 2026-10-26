@@ -1,0 +1,96 @@
+zenodo_may2026_mayer_etal/   reproduction package for Mayer et al. (2026)
+The May 2026 Western European Heatwave
+
+Top level: README.md, DATA_MANIFEST.md, REPRODUCE.md, config.yaml, environment.yml
+
+Directory layout (large data folders summarised):
+
+    DATA_MANIFEST.md   (3KB)
+    README.md   (5KB)
+    REPRODUCE.md   (2KB)
+    config.yaml   (3KB)
+    environment.yml   (446B)
+    01_data_acquisition/
+        download_era5_daily_t2m_z500.py   (3KB)
+        download_ifs_z500_t2m.ipynb   (7KB)
+        preprocess_era5_et_daily.ipynb   (20KB)
+    02_col_catalogue/
+        aifs_col_detection.ipynb   (22KB)
+        col_200_500hPa_threshold_matching.ipynb   (58KB)
+        era5_col_catalogue_and_trend.ipynb   (31KB)
+        ifs_col_detection_dailymean.ipynb   (16KB)
+    03_lagranto_tracing/
+        [18 files, 76KB: 7x .py, 6x .slurm, 2x .sh, 1x .shellscript, 1x .csh, 1x .md]
+        e.g. 01_prepare_era5.slurm
+        e.g. 01_prepare_era5_6h.py
+        analogues/
+            [24 files, 118KB: 9x .sh, 7x .py, 6x .slurm, 1x .txt, 1x .md]
+            e.g. 01_prepare_era5_slurm_6h.py
+            e.g. 01_run_prepare_era5_analogue.slurm
+    04_analogue_selection/
+        fig4_analogues_and_ridge_control.ipynb   (92KB)
+        learn_ridge_control_z500_t2m_laptop.py   (15KB)
+        learn_ridge_control_z500_t2m_levante.py   (10KB)
+    05_figures/
+        fig1_overview_and_predictability/
+            fig1_overview_ifs_composites.ipynb   (88KB)
+        fig2_pv_rwb_dynamics/
+            download_preprocess_pv_theta_mslp.ipynb   (21KB)
+            fig2_pv_rossby_wave_breaking.ipynb   (36KB)
+            find_rwb.py   (24KB)
+        fig3_cutoff_ifs_aifs/
+            fig3_aifs_cutoff_matched.ipynb   (236KB)
+            fig3_ifs_cutoff_ridgecontrol.py   (13KB)
+        fig5_vertical_decomposition/
+            fig5_vertical_lagrangian_decomposition.py   (8KB)
+        fig6_slope_regression/
+            fig6_col_vs_decomposition_slope.py   (11KB)
+        fig7_genesis_origin_maps/
+            fig7_genesis_advective_origin.py   (24KB)
+            figS8_origin_maps_ifs_analogue.py   (10KB)
+        supplements/
+            figS10_era5_origin_allprocess.py   (7KB)
+            figS1_study_regions_map.ipynb   (14KB)
+            figS6_ifs_composite_bias.py   (6KB)
+            figS7_vertical_decomposition_land.py   (8KB)
+            figS9_analogue_origin_allprocess.py   (7KB)
+    06_derived_data/
+        [18 files, 217MB: 9x .nc, 6x .csv, 3x .json]
+        e.g. col_features_AMJJA_1940_2025_largebox.nc
+        e.g. col_features_AMJJA_1940_2025_largebox_z200.nc
+        aifs/
+            COL_d4_index_Init_2026051700_UP_EX1.csv   (6KB)
+            COL_d4_index_Init_2026051800_UP_EX1.csv   (7KB)
+            cols_index_Init_2026051700.csv   (53KB)
+            cols_index_Init_2026051800.csv   (90KB)
+            pdf_data_with_threshold.csv   (6KB)
+            regional_metrics_Init_2026051700_20260525.csv   (13KB)
+            regional_metrics_Init_2026051800_20260525.csv   (13KB)
+            significance_cutoff_vs_no_cutoff.nc   (952KB)
+        analogue_origin_6h_windfix/
+            [31 subfolders, e.g. rank01_MJ_19420603, rank02_MJ_19520630/ ...]
+        era5_daily/
+            era5_t2m_daily_NA_1940_2026_FULL_0p5deg.nc   (2GB)
+            era5_z500_daily_NA_1940_2026_FULL_1deg.nc   (746MB)
+        ifs_forecast_gribs/
+            README.txt   (182B)
+        ifs_tanom_decomp/
+            20260517_00/
+                [50 subfolders, e.g. 01, 02/ ...]
+            20260518_00/
+                [50 subfolders, e.g. 01, 02/ ...]
+            ERA5_cropped/
+                [56 files, 56MB: 56x (noext)]
+                e.g. tanom_20260517_00
+                e.g. tanom_20260517_06
+            ERA5_noncropped/
+                [56 files, 56MB: 56x (noext)]
+                e.g. tanom_20260517_00
+                e.g. tanom_20260517_06
+            ERA5_noncropped_NH/
+                [56 files, 56MB: 56x (noext)]
+                e.g. tanom_20260517_00
+                e.g. tanom_20260517_06
+        origin_contributions_6h_clim2017_2025_windfix/
+            origin_contributions.nc   (116MB)
+        rwb_era5/

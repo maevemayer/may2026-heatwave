@@ -1,0 +1,39 @@
+# ======================================================================
+# config.yaml  -  set these to YOUR local paths before running any notebook/script.
+# The code refers to data locations through the ${KEYS} below. Paths to data that is
+# too large to ship with this deposit (raw ERA5, forecast GRIBs, IFS trajectory
+# decomposition) are NOT included here - point the keys at your own copies; see
+# DATA_MANIFEST.md for how to obtain them. Data that IS shipped lives in 06_derived_data.
+# The "example" values are the authors' original paths, kept only to show the expected
+# content; replace them.
+# ======================================================================
+
+# --- shipped with this deposit (leave as-is; relative to the package root) ---
+DERIVED_DATA:      ./06_derived_data           # small derived CSV/JSON/netCDF used directly by the figures
+
+# --- ERA5 daily fields --- SHIPPED (0.5deg t2m + 1deg z500). Leave as-is.
+ERA5_DERIVED:      ./06_derived_data/era5_daily
+# The analogue notebook reads the SAME era5 files as ${ANALOGUE_BASE}/rawdat/era5_z500...1deg.nc and
+# ${ANALOGUE_BASE}/rawdat_0p5/era5_t2m...0p5deg.nc - point ANALOGUE_BASE at a dir whose rawdat/ and
+# rawdat_0p5/ hold (or symlink) those two files, e.g. ./06_derived_data/era5_daily reorganised, or your archive.
+ANALOGUE_BASE:     /path/to/analogues_base      # + analogue selection outputs (large, external)
+IPCC_COLORMAPS:    /path/to/IPCC_colormaps      # IPCC WG1 colormaps (temp_div.txt); optional (falls back to RdBu_r)
+
+# --- forecast data --- SHIPPED (Fig-1 TIGGE GRIBs: gh500 1deg + 2t 0.5deg). Leave as-is.
+IFS_FORECAST_DIR:  ./06_derived_data/ifs_forecast_gribs
+
+# --- Lagrangian trajectory temperature decomposition ---
+# SHIPPED with this deposit (per-member IFS tanom_* files, Fig 5/6/7, S6-S10). Leave as-is.
+IFS_TANOM_DECOMP:  ./06_derived_data/ifs_tanom_decomp
+# NOTE: the ERA5-event and per-analogue origin-contribution products are ALSO shipped, under
+# ${DERIVED_DATA}/origin_contributions_6h_clim2017_2025_windfix/ and ${DERIVED_DATA}/analogue_origin_6h_windfix/
+# (so Fig 7 and the origin-map supplements run from the deposit without re-tracing).
+LAGRANTO_BASE:     /path/to/lagranto_work       # LAGRANTO tracing working tree (03_lagranto_tracing outputs)
+LAGRANTO_RERUN:    /path/to/lagranto_rerun      # corrected 6-hourly LAGRANTO rerun tree (windfix)
+
+# --- other ---
+MSE_BASE:          /path/to/mse_data            # output base for the ERA5 ET daily/compiled file (Fig 1 preprocess)
+WORK:              /path/to/work                # generic cluster work base
+SCRATCH:           /path/to/scratch             # generic scratch
+HOME_WORK:         ./outputs                    # where figures are written
+HOME:              ~                            # user home (configs, caches)

@@ -1,0 +1,25 @@
+name: may2026
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - xarray
+  - scipy
+  - matplotlib
+  - cartopy
+  - netcdf4
+  - cfgrib
+  - eccodes
+  - metpy
+  - statsmodels
+  - scikit-learn
+  - cmocean
+  - pyyaml
+  - nbformat
+  - jupyter
+  - cdsapi
+  - pip
+  - pip:
+    - colindex2          # cut-off-low detector (Kasuga-style optimal-slope)
+    # LAGRANTO is a separate Fortran tool (see 03_lagranto_tracing/README.md)

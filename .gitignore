@@ -1,0 +1,8 @@
+# derived data lives on Zenodo, not in git
+06_derived_data/**
+!06_derived_data/README.md
+# macOS / build junk
+._*
+.DS_Store
+_build_report.txt
+*.zip
