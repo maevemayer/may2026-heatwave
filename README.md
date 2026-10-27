@@ -5,6 +5,19 @@ section; every figure maps to one script/notebook. Personal absolute paths have 
 replaced by `${KEYS}` set in **`config.yaml`**. Large inputs are not shipped - see
 **`DATA_MANIFEST.md`**; small derived inputs are in **`06_derived_data/`**.
 
+## Requirements: LAGRANTO
+
+The trajectory tracing in `03_lagranto_tracing/` requires the **shell-script
+version of LAGRANTO.ECMWF**, which is not redistributed here. It can be requested
+from Michael Sprenger (https://iacweb.ethz.ch/staff/sprenger/lagranto/). If you
+use it, please cite:
+
+- Sprenger, M. and Wernli, H. (2015): The LAGRANTO Lagrangian analysis tool -
+  version 2.0. *Geosci. Model Dev.*, 8, 2569-2586. doi:10.5194/gmd-8-2569-2015.
+- Wernli, H. and Davies, H. C. (1997): A Lagrangian-based analysis of
+  extratropical cyclones. I: The method and some applications. *Q. J. R.
+  Meteorol. Soc.*, 123, 467-489. doi:10.1002/qj.49712353811.
+
 ## Layout
 ```
 01_data_acquisition/   download the ECMWF/TIGGE forecast fields from CDS

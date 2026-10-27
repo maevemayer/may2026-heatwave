@@ -4,6 +4,19 @@ SLURM-submittable version of the notebook workflow, with the **6-hourly
 snapshot** correction. All the physics/math is carried over verbatim from the
 notebooks; only the items below change.
 
+## Requires LAGRANTO.ECMWF (shell version)
+
+This pipeline calls the **shell-script version of LAGRANTO.ECMWF** (pointed to by
+`LAGRANTO_ROOT` in `config.sh`). It is not redistributed here and can be requested
+from Michael Sprenger (https://iacweb.ethz.ch/staff/sprenger/lagranto/). If you
+use it, please cite:
+
+- Sprenger, M. and Wernli, H. (2015): The LAGRANTO Lagrangian analysis tool -
+  version 2.0. *Geosci. Model Dev.*, 8, 2569-2586. doi:10.5194/gmd-8-2569-2015.
+- Wernli, H. and Davies, H. C. (1997): A Lagrangian-based analysis of
+  extratropical cyclones. I: The method and some applications. *Q. J. R.
+  Meteorol. Soc.*, 123, 467-489. doi:10.1002/qj.49712353811.
+
 ## Genesis rule (Oct 2026): as in Hotz et al. (2024)
 
 Stages 05 and 06 integrate the processes from the TA genesis to arrival with the
