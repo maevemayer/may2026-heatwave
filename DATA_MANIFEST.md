@@ -3,6 +3,11 @@
 Everything the code needs that is **too large to ship** is listed here with where to get
 it. Small derived files are already in `06_derived_data/`.
 
+The full derived-data archive (~11 GB) is deposited on Zenodo:
+**DOI [10.5281/zenodo.23666704](https://doi.org/10.5281/zenodo.23666704)**.
+Download and unzip it into `06_derived_data/` to reproduce the figures without
+rebuilding the heavy intermediate products.
+
 ## Shipped (06_derived_data/)
 - `col_features_AMJJA_1940_2025_largebox.nc`      ERA5 500 hPa cut-off/trough catalogue 1940-2025 (Fig 8, S2)
 - `col_features_AMJJA_1940_2025_largebox_z200.nc` ERA5 200 hPa cut-off catalogue (S2 matching)

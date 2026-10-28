@@ -5,7 +5,8 @@ temperature-decomposition trajectories, origin-contribution fields, COL
 catalogues, AIFS/IFS CSVs and ridge-control JSONs) is **too large for GitHub**
 and is archived on Zenodo:
 
-    Zenodo data archive DOI: 10.5281/zenodo.XXXXXXX   (fill in after publishing)
+    Zenodo data archive DOI: 10.5281/zenodo.23666704
+    https://doi.org/10.5281/zenodo.23666704
 
 Download the archive, unzip it, and place its contents here so this folder
 matches the layout in `../FILE_TREE.txt`. Then `config.yaml` works unchanged
