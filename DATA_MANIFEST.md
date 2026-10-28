@@ -4,7 +4,7 @@ Everything the code needs that is **too large to ship** is listed here with wher
 it. Small derived files are already in `06_derived_data/`.
 
 The full derived-data archive (~11 GB) is deposited on Zenodo:
-**DOI [10.5281/zenodo.23666704](https://doi.org/10.5281/zenodo.23666704)**.
+**DOI [10.5281/zenodo.23666703](https://doi.org/10.5281/zenodo.23666703)**.
 Download and unzip it into `06_derived_data/` to reproduce the figures without
 rebuilding the heavy intermediate products.
 

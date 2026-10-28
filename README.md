@@ -6,7 +6,7 @@ replaced by `${KEYS}` set in **`config.yaml`**. Large inputs are not shipped - s
 **`DATA_MANIFEST.md`**; small derived inputs are in **`06_derived_data/`**.
 
 The full derived-data archive (~11 GB) is on Zenodo:
-**DOI [10.5281/zenodo.23666704](https://doi.org/10.5281/zenodo.23666704)**.
+**DOI [10.5281/zenodo.23666703](https://doi.org/10.5281/zenodo.23666703)**.
 
 ## Requirements: LAGRANTO
 
