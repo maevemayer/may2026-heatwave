@@ -39,9 +39,11 @@ Produced by the LAGRANTO workflow in `03_lagranto_tracing/` from ERA5; feeds Fig
 over the selected analogue dates. Used by Fig 5/6/7, S8-S11.
 
 ## AIFS derived (${DERIVED_DATA}/aifs)
-`regional_metrics_Init_*.csv`, `COL_d4_index_Init_*_UP_EX1.csv`, `pdf_data_with_threshold.csv`,
-`cols_index_Init_*.csv` - produced by the AIFS notebooks (fig3_aifs_cutoff_matched.ipynb,
-aifs_col_detection.ipynb). Ship these too if < a few MB each.
+`regional_metrics_Init_*.csv`, `COL_d4_index_Init_*_UP_EX1.csv`, `cols_index_Init_*.csv`,
+`pdf_data_with_threshold.csv`, `significance_cutoff_vs_no_cutoff.nc`,
+`vertical_temperature_profiles_Init_*.nc` - produced by the AIFS notebooks
+(fig3_aifs_cutoff_matched.ipynb, aifs_col_detection.ipynb). Z500-matched pool: daily-mean,
+cos(lat)-weighted box mean (5.5W-5E, 44.5-55N) > 5860 gpm (g0=9.80665).
 
 ## Suggested tiny path loader
 Each file refers to data as e.g. `${ERA5_DERIVED}/era5_z500...nc`. To resolve at runtime:
