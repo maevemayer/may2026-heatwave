@@ -5,6 +5,9 @@ section; every figure maps to one script/notebook. Personal absolute paths have 
 replaced by `${KEYS}` set in **`config.yaml`**. Large inputs are not shipped - see
 **`DATA_MANIFEST.md`**; small derived inputs are in **`06_derived_data/`**.
 
+Preprint (*Weather and Climate Dynamics* discussion, EGUsphere):
+**[10.5194/egusphere-2026-6674](https://doi.org/10.5194/egusphere-2026-6674)**.
+
 The full derived-data archive (~11 GB) is on Zenodo:
 **DOI [10.5281/zenodo.23666703](https://doi.org/10.5281/zenodo.23666703)**.
 
