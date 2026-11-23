@@ -77,7 +77,7 @@ Xc=S-S.mean(0); vCOL=((COL-COL.mean())**2).sum()/(nn-1)
 def bA(c): cc=c-c.mean(); return (Xc*cc[:,None]).sum(0)/(nn-1)/vCOL
 gA=bA(COL); mn=np.array([np.nanmax(np.where(occ,np.abs(bA(COL[perm()])),np.nan)) for _ in range(NPERM)]); sigA=np.where(occ,np.abs(gA)>np.quantile(mn,.95),False)
 import json as _json
-RIDGE_BETA=_json.load(open("${DERIVED_DATA}/ridge_control_t2m_z500_MJJA.json"))["beta_K_per_gpm"]  # learned MJJA Z500->T2m [K/gpm]
+RIDGE_BETA=_json.load(open("${DERIVED_DATA}/ridge_control_t2m_z500_MJJA.json"))["beta_anom_K_per_gpm"]  # learned MJJA Z500-ANOMALY->T2m [K/gpm]; IFS members share event date so Z-mean(Z)=within-season anomaly
 A=np.column_stack([np.ones(nn),Z]);P=A@np.linalg.pinv(A); Xr=S-P@S           # branch field: within-sample z500 control
 Tr=T-RIDGE_BETA*Z; Tr=Tr-Tr.mean(); Xrc=Xr-Xr.mean(0)                        # T2m ridge control = learned MJJA slope
 Bb=Xr[:,bc].sum(1); vB=((Bb-Bb.mean())**2).sum()/(nn-1)
@@ -223,12 +223,15 @@ def _ares(y,x): Am=np.column_stack([np.ones(len(y)),x]); return np.asarray(y,flo
 _ge,_se=_afwer(aX,aC); an_grid_e=np.where(a_occ,_ge,np.nan).reshape(aNLAT,aNLON); an_sig_e=_se.reshape(aNLAT,aNLON)  # (d) COL->branch
 abranch=aX[:,a_bc].sum(1)
 ann_e=np.array([stats.pearsonr(aC,abranch)[0],stats.pearsonr(aC,abranch)[1],stats.spearmanr(aC,abranch)[0],np.nansum(_ge[a_bc])])
-# (f) advective branch -> T2m  DIRECT (no Z500 control; IFS panel (e) stays ridge-controlled)
-_gf,_sf=_afwer(aX,aT); an_grid_f=np.where(a_occ,_gf,np.nan).reshape(aNLAT,aNLON); an_sig_f=_sf.reshape(aNLAT,aNLON)
-_vB=((abranch-abranch.mean())**2).sum()
-_bf=((abranch-abranch.mean())*(aT-aT.mean())).sum()/_vB
-ann_f=np.array([stats.pearsonr(abranch,aT)[0],stats.pearsonr(abranch,aT)[1],stats.spearmanr(rankdata(abranch),rankdata(aT))[0],_bf])
-print(f"[analogue] (d) COL->branch r={ann_e[0]:+.2f} beta_box={ann_e[3]:+.3f} | (f) branch->T2m DIRECT r={ann_f[0]:+.2f} beta_box={ann_f[3]:+.3f}")
+# (f) advective branch -> T2m, Z500-CONDITIONED (both branch and T2m controlled for z500, as IFS panel e)
+_aZc=np.column_stack([np.ones(N_ALL),aZ]); aXr=aX-(_aZc@np.linalg.pinv(_aZc))@aX   # branch: within-sample z500 control (as Xr=S-P@S)
+aTr=aT-RIDGE_BETA*aZ; aTr=aTr-aTr.mean()                                           # T2m: learned ridge slope (as Tr=T-beta*Z); aZ is a present-climate anomaly -> beta_anom
+abranch_r=aXr[:,a_bc].sum(1)
+_gf,_sf=_afwer(aXr,aTr); an_grid_f=np.where(a_occ,_gf,np.nan).reshape(aNLAT,aNLON); an_sig_f=_sf.reshape(aNLAT,aNLON)
+_vB=((abranch_r-abranch_r.mean())**2).sum()
+_bf=((abranch_r-abranch_r.mean())*(aTr-aTr.mean())).sum()/_vB
+ann_f=np.array([stats.pearsonr(abranch_r,aTr)[0],stats.pearsonr(abranch_r,aTr)[1],stats.spearmanr(rankdata(abranch_r),rankdata(aTr))[0],_bf])
+print(f"[analogue] (d) COL->branch r={ann_e[0]:+.2f} beta_box={ann_e[3]:+.3f} | (f) branch->T2m | Z500 r={ann_f[0]:+.2f} beta_box={ann_f[3]:+.3f}")
 aLON,aLAT=np.meshgrid(aLC,aLTC); inbox_an=(aLON>=MOR[0])&(aLON<=MOR[1])&(aLAT>=MOR[2])&(aLAT<=MOR[3]); bc_an=an_occ&inbox_an
 gf=an_grid_f; boxint=np.nansum(gf[bc_an]); grid_f_fwd=gf*(ann_f[3]/boxint if boxint else 1.0)   # rescale to forward
 GA2=np.where(occ,gA,np.nan).reshape(nlat,nlon); GB2=np.where(occ,gB,np.nan).reshape(nlat,nlon)
@@ -293,12 +296,12 @@ a3,p3=drawp(3,"c",lon_c,lat_c,GA2d,sigA.reshape(nlat,nlon),"IFS: cut-off activit
 cb3=fig.colorbar(p3,ax=a3,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb3.set_label("K adv / mean daily COL activity / 10$^6$ km$^2$",fontsize=fs-2)
 a4,p4=drawp(4,"d",aLC,aLTC,an_grid_e_d,an_sig_e,"Analogue: cut-off activity → advective branch",pct(an_grid_e_d),ann=ann_e,cmap=BETACMAP)
 cb4=fig.colorbar(p4,ax=a4,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb4.set_label("K adv / mean daily COL activity / 10$^6$ km$^2$",fontsize=fs-2)
-# Row 3: branch -> T2m   (IFS | Z500  ;  analogue DIRECT) — SEPARATE per-panel colour scales
+# Row 3: branch -> T2m   (IFS | Z500  ;  analogue | Z500) — SEPARATE per-panel colour scales
 GB2d=area_density(GB2,LAT); grid_f_fwd_d=area_density(grid_f_fwd,aLAT)
 a5,p5=drawp(5,"e",lon_c,lat_c,GB2d,sigB.reshape(nlat,nlon),"IFS: advective branch → T2m | Z500",pct(GB2d),ann=[rD,pD,sD,betaD],cmap=BETACMAP)
-cb5=fig.colorbar(p5,ax=a5,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb5.set_label("K T2m / K branch / 10$^6$ km$^2$",fontsize=fs-2)
-a6,p6=drawp(6,"f",aLC,aLTC,grid_f_fwd_d,an_sig_f,"Analogue: advective branch → T2m  (direct)",pct(grid_f_fwd_d),ann=ann_f,cmap=BETACMAP)
-cb6=fig.colorbar(p6,ax=a6,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb6.set_label("K T2m / K branch / 10$^6$ km$^2$",fontsize=fs-2)
-OUT=f"${HOME_WORK}/Fig4_6panel_250_750hPa_0p5deg_6h_cutoff_N{N_BEST_ANA}_windfix_ifs20261019" + ("" if IFS_GENESIS=="adv" else "_IFSgenTA") + (f"_minN{AN_MIN_N}" if "AN_MIN_N" in os.environ else "") + ".png"; fig.savefig(OUT,dpi=150,bbox_inches="tight"); fig.savefig(OUT.replace(".png",".pdf"),bbox_inches="tight"); print("saved",OUT)
+cb5=fig.colorbar(p5,ax=a5,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb5.set_label("K T2m / K adv / 10$^6$ km$^2$",fontsize=fs-2)
+a6,p6=drawp(6,"f",aLC,aLTC,grid_f_fwd_d,an_sig_f,"Analogue: advective branch → T2m | Z500",pct(grid_f_fwd_d),ann=ann_f,cmap=BETACMAP)
+cb6=fig.colorbar(p6,ax=a6,location="bottom",shrink=0.85,aspect=25,pad=0.02); cb6.set_label("K T2m / K adv / 10$^6$ km$^2$",fontsize=fs-2)
+OUT=f"${HOME_WORK}/Fig4_6panel_250_750hPa_0p5deg_6h_cutoff_N{N_BEST_ANA}_windfix_ifs20261019_z500anom" + ("" if IFS_GENESIS=="adv" else "_IFSgenTA") + (f"_minN{AN_MIN_N}" if "AN_MIN_N" in os.environ else "") + ".png"; fig.savefig(OUT,dpi=150,bbox_inches="tight"); fig.savefig(OUT.replace(".png",".pdf"),bbox_inches="tight"); print("saved",OUT)
 print(f"IFS  COL->branch beta_box={betaC:+.3f} | branch->T2m beta_box={betaD:+.2f}")
 print(f"ANA  COL->branch beta_box={ann_e[3]:+.3f} | branch->T2m beta_box={ann_f[3]:+.2f}")
