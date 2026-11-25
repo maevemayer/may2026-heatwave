@@ -6,3 +6,14 @@
 .DS_Store
 _build_report.txt
 *.zip
+
+# Local credentials and Claude Code settings (never commit)
+.claude/settings.local.json
+.env
+.env.*
+.cdsapirc
+.ecmwfapirc
+.netrc
+*.pem
+id_rsa*
+id_ed25519*
